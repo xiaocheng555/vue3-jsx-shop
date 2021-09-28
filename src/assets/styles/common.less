@@ -1,0 +1,37 @@
+body {
+  font-family: -apple-system, blinkmacsystemfont, 'Helvetica Neue', helvetica, segoe ui, arial, roboto, 'PingFang SC', 'miui',
+    'Hiragino Sans GB', 'Microsoft Yahei', sans-serif;;
+  font-size: 14px;
+  line-height: 1.5;
+  word-break: break-all;
+}
+// 图片禁止长按保存
+img {
+  pointer-events: none;
+}
+/* 快捷样式 */
+.fl { float: left; }
+.fr { float: right; }
+.clearfix {
+  &:after {
+    content: '\20';
+    display: block;
+    height: 0;
+    clear: both;
+  }
+}
+.ell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  word-wrap: normal;
+}
+.ellipsisLn (@line) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: @line;
+}
+.ell2 { .ellipsisLn(2); }
+

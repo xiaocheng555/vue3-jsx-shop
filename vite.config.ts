@@ -3,15 +3,15 @@ import { resolve } from 'path'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import styleImport from 'vite-plugin-style-import'
-import eslintPlugin from 'vite-plugin-eslint'
+// import eslintPlugin from 'vite-plugin-eslint'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    eslintPlugin({
-      include: ['src/**/*.js', 'src/**/*.vue', 'src/**/*.ts', 'src/**/*.tsx']
-    }),
+    // eslintPlugin({
+    //   include: ['src/**/*.js', 'src/**/*.vue', 'src/**/*.ts', 'src/**/*.tsx']
+    // }),
     vueJsx(), // 支持jsx语法
     styleImport({ // 按需引入
       libs: [

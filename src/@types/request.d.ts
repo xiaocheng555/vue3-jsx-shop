@@ -7,24 +7,16 @@
  * 版权所有，侵权必究！
  *
  */
-import { createStore } from 'vuex'
+export interface ResponseData <T> {
+  resultCode: number;
+  data?: T;
+  message: string | undefined;
+}
 
-// Create a new store instance.
-export default createStore({
-  state () {
-    return {
-      cartCount: 0
-    }
-  },
-  mutations: {
-    setCartCount (state: any, value: number) {
-      state.cartCount = value
-    }
-  },
-  actions: {
-
-  },
-  getters: {
-
-  }
-})
+export interface ResponsePage <T> {
+  currPage: number,
+  list: T[],
+  pageSize: number,
+  totalCount: number
+  totalPage: number
+}

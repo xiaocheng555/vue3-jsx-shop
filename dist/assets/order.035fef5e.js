@@ -1,0 +1,1 @@
+import{r}from"./request.324758d0.js";function e(e){return r.post("/saveOrder",e)}function t(e){return r.get("/order",{params:e})}function n(e){return r.get(`/order/${e}`)}function a(e){return r.put(`/order/${e}/cancel`)}function s(e){return r.get("/paySuccess",{params:e})}export{n as a,a as b,e as c,t as g,s as p};

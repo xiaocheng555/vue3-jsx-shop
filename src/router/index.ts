@@ -47,11 +47,6 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import(/* webpackChunkName: "Address" */ '@/views/user/address/index')
   },
   {
-    path: '/user/address/edit',
-    name: 'address-edit',
-    component: () => import(/* webpackChunkName: "AddressEdit" */ '@/views/user/address/AddressEdit')
-  },
-  {
     path: '/user/about',
     name: 'about',
     component: () => import(/* webpackChunkName: "About" */ '@/views/user/about/index')

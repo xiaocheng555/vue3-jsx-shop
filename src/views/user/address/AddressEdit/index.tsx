@@ -8,7 +8,7 @@ import { editAddressApi, addAddressApi, deleteAddressApi, getAddressDetailApi, A
 export default defineComponent({
   name: 'AddressEdit',
   emits: ['back'],
-  setup (props, context : SetupContext) {
+  setup (props: any, context : SetupContext) {
     const route = useRoute()
     const searchResult = ref([])
     const addressInfo = ref<AddressEditInfo>({} as AddressEditInfo)

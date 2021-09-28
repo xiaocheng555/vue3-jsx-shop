@@ -1,1 +1,0 @@
-import{r}from"./request.324758d0.js";function t(t){return r.get(`/goods/detail/${t}`)}function e(){return r.get("/categories")}function s(t){return r.get("/search",{params:t})}export{t as a,e as g,s};

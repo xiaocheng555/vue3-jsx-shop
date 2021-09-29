@@ -1,5 +1,3 @@
-// import { AxiosError } from "axios";
-
 // 请求响应数据
 declare namespace Res {
   export interface Data <T> { // 响应数据
@@ -14,6 +12,5 @@ declare namespace Res {
     totalCount: number,
     totalPage: number,
   }
-  export type ResError = Error | unknown;
 }
 

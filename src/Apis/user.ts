@@ -7,7 +7,7 @@
  * 版权所有，侵权必究！
  *
  */
-import request from '@/utils/request'
+import http from '@/utils/http'
 
 export interface UserInfo {
   introduceSign: string;
@@ -16,7 +16,7 @@ export interface UserInfo {
 }
 // 获取用户数据
 export function getUserInfoApi () {
-  return request.get('/user/info')
+  return http.get<UserInfo>('/user/info')
 }
 
 export interface LoginParams {
@@ -24,8 +24,9 @@ export interface LoginParams {
   passwordMd5: string
 }
 // 登录接口
+type token = string
 export function loginApi (params: LoginParams) {
-  return request.post('/user/login', params)
+  return http.post<token>('/user/login', params)
 }
 
 // 编辑用户信息参数类型
@@ -37,12 +38,12 @@ export interface EditUserParams {
 }
 // 编辑用户信息
 export function editUserInfoApi (params: EditUserParams) {
-  return request.put('/user/info', params)
+  return http.put('/user/info', params)
 }
 
 // 退出登录
 export function logoutApi () {
-  return request.post('/user/logout')
+  return http.post('/user/logout')
 }
 
 // export function register(params) {

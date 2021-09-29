@@ -7,7 +7,7 @@
  * 版权所有，侵权必究！
  *
  */
-import request from '@/utils/request'
+import http from '@/utils/http'
 import { GoodsRes } from './good'
 
 export interface CarouselRes {
@@ -21,5 +21,5 @@ export interface HomeResData {
   recommendGoodses: GoodsRes[]
 }
 export function getHomeApi () {
-  return request.get('/index-infos')
+  return http.get<HomeResData>('/index-infos')
 }

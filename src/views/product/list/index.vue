@@ -5,7 +5,6 @@ import { Card, Empty, Icon, List, PullRefresh, Search, Tab, Tabs } from "vant"
 import { computed, onBeforeMount, ref } from 'vue'
 import { useRoute, useRouter } from "vue-router"
 import { handleImg } from "@/utils"
-import { ResponsePage } from "@/@types/request"
 
 const enum SearchStatus {
   READY = 'ready', // 未搜索
@@ -104,7 +103,7 @@ export default {
           ...goodsParams.value,
           keyword: keyword.value
         })
-        const data: ResponsePage<GoodsRes> = res.data || {}
+        const data = res.data || {}
         const list = res.data?.list || []
         goodsList.value.push(...list)
 

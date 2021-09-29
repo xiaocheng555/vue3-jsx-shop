@@ -31,7 +31,7 @@ export default defineComponent({
       const toast = Toast.loading('加载中...')
       try {
         const res = await getAddressListApi()
-        const data: AddressItemResData[] = res.data || []
+        const data = res.data || []
         addressList.value = adapterAddressList(data)
       } catch (err) {
         console.error('获取地址数据失败', err)

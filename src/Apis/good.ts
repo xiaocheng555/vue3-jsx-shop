@@ -7,7 +7,7 @@
  * 版权所有，侵权必究！
  *
  */
-import request from '@/utils/request'
+import http from '@/utils/http'
 
 export interface GoodsRes {
   goodsCoverImg?: string,
@@ -24,7 +24,7 @@ export interface GoodsDetailRes extends GoodsRes {
   originalPrice: string
 }
 export function getGoodsApi (id: number) {
-  return request.get(`/goods/detail/${id}`)
+  return http.get(`/goods/detail/${id}`)
 }
 
 export interface CateItemRes {
@@ -36,7 +36,7 @@ export interface CateItemRes {
   thirdLevelCategoryVOS?: CateItemRes[],
 }
 export function getCategoryApi () {
-  return request.get('/categories')
+  return http.get('/categories')
 }
 
 export interface SearchGoodsParams {
@@ -46,5 +46,5 @@ export interface SearchGoodsParams {
   goodsCategoryId?: number | string
 }
 export function searchGoodsApi (params: SearchGoodsParams) {
-  return request.get('/search', { params })
+  return http.get<Response.Page<GoodsRes>>('/search', { params })
 }

@@ -7,7 +7,7 @@
  * 版权所有，侵权必究！
  *
  */
- import request from '@/utils/request'
+ import http from '@/utils/http'
 
 export interface AddressItemResData {
   addressId?: number | string,
@@ -22,23 +22,23 @@ export interface AddressItemResData {
 }
 
 export function addAddressApi (params: AddressItemResData) {
-  return request.post('/address', params)
+  return http.post('/address', params)
 }
 
 export function editAddressApi (params: AddressItemResData) {
-  return request.put('/address', params)
+  return http.put('/address', params)
 }
 
 export function deleteAddressApi (id: number | string) {
-  return request.delete(`/address/${id}`)
+  return http.delete(`/address/${id}`)
 }
 
 export function getDefaultAddressApi () {
-  return request.get<AddressItemResData>('/address/default')
+  return http.get<AddressItemResData>('/address/default')
 }
 
 export function getAddressListApi () {
-  return request.get('/address', {
+  return http.get<AddressItemResData[]>('/address', {
     params: {
       pageNumber: 1,
       pageSize: 1000
@@ -47,5 +47,5 @@ export function getAddressListApi () {
 }
 
 export function getAddressDetailApi (id: number | string) {
-  return request.get<AddressItemResData>(`/address/${id}`)
+  return http.get<AddressItemResData>(`/address/${id}`)
 }

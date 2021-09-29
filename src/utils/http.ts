@@ -12,13 +12,13 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import appConfig from '@/config/index'
 import router from '@/router/index'
 import { Toast } from 'vant'
-import { RequestInstance } from './request.d'
+import { httpInstance } from './http.d'
 
 /*
  * 创建axios实例
  */
 // AxiosInstance
-const request: RequestInstance = axios.create({
+const http: httpInstance = axios.create({
   baseURL: appConfig.baseUrl,
   // withCredentials: true, // send cookies when cross-domain requests
   timeout: 5000
@@ -27,7 +27,7 @@ const request: RequestInstance = axios.create({
 /*
  * 请求拦截
  */
-request.interceptors.request.use(
+http.interceptors.request.use(
   (config: AxiosRequestConfig) => {
     config.headers.token = window.localStorage.getItem('token') // 设置token
     return config
@@ -43,7 +43,7 @@ request.interceptors.request.use(
  */
 let toast: any
 let timer: any
-request.interceptors.response.use(
+http.interceptors.response.use(
   (response: AxiosResponse) => {
     const res = response.data
     if (res.resultCode === 200) {
@@ -82,4 +82,4 @@ request.interceptors.response.use(
   }
 )
 
-export default request
+export default http

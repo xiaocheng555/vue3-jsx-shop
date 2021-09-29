@@ -72,7 +72,7 @@ const handleLogin = async () => {
       passwordMd5: md5(password)
     })
 
-    const token: string = res.data
+    const token = res.data
     if (token) {
       window.localStorage.setItem('token', token)
       router.replace('/user')

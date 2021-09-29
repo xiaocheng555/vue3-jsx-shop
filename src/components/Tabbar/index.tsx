@@ -75,7 +75,7 @@ export default defineComponent({
                 <TabbarItem
                   icon={tab.icon}
                   onClick={() => { router.push(tab.path) }}>
-                  {!tab.isCart ? tab.name : <Badge content={cartCount.value} offset={[-5, -23]}>{tab.name}</Badge>}
+                  {!tab.isCart && cartCount.value > 0 ? tab.name : <Badge content={cartCount.value} offset={[-5, -23]}>{tab.name}</Badge>}
                 </TabbarItem>
               )
               )}

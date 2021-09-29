@@ -7,7 +7,7 @@
  * 版权所有，侵权必究！
  *
  */
-import request from '@/utils/request'
+import http from '@/utils/http'
 
 export interface CartItemRes {
   cartItemId?: number,
@@ -19,24 +19,24 @@ export interface CartItemRes {
 }
 
 export function addCartApi (params: CartItemRes) {
-  return request.post('/shop-cart', params)
+  return http.post('/shop-cart', params)
 }
 
 export function modifyCartApi (params: CartItemRes) {
-  return request.put('/shop-cart', params)
+  return http.put('/shop-cart', params)
 }
 
 export function getCartApi () {
-  return request.get('/shop-cart')
+  return http.get<CartItemRes []>('/shop-cart')
 }
 
 export function deleteCartItemApi (id: number) {
-  return request.delete(`/shop-cart/${id}`)
+  return http.delete(`/shop-cart/${id}`)
 }
 
 export interface GetCartItemsParams {
   cartItemIds?: string
 }
 export function getByCartItemIdsApi (params: GetCartItemsParams) {
-  return request.get<CartItemRes[]>('/shop-cart/settle', { params })
+  return http.get<CartItemRes[]>('/shop-cart/settle', { params })
 }

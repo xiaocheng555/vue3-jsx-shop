@@ -69,7 +69,7 @@ export default {
       const toast = Toast.loading('加载中...')
       try {
         const res = await getHomeApi()
-        const data: HomeResData = res.data || {}
+        const data = res.data || {} as HomeResData
         carouselList.value = data.carousels || []
         hotGoodsList.value = data.hotGoodses || []
         newGoodsList.value = data.newGoodses || []

@@ -8,40 +8,39 @@
  *
  */
 import { AxiosInstance, AxiosRequestConfig } from 'axios'
-import { ResponseData } from '../@types/request'
 
-// 重写实例，将返回数据变为ResponseData<T>
-export interface RequestInstance extends AxiosInstance {
-  request<T = any, R = ResponseData<T>>(
+// 重写实例，将返回数据变为Response.Data<T>
+export interface httpInstance extends AxiosInstance {
+  request<T = any, R = Response.Data<T>>(
     config: AxiosRequestConfig
   ): Promise<R>;
-  get<T = any, R = ResponseData<T>>(
+  get<T = any, R = Response.Data<T>>(
     url: string,
     config?: AxiosRequestConfig
   ): Promise<R>;
-  delete<T = any, R = ResponseData<T>>(
+  delete<T = any, R = Response.Data<T>>(
     url: string,
     config?: AxiosRequestConfig
   ): Promise<R>;
-  head<T = any, R = ResponseData<T>>(
+  head<T = any, R = Response.Data<T>>(
     url: string,
     config?: AxiosRequestConfig
   ): Promise<R>;
-  options<T = any, R = ResponseData<T>>(
+  options<T = any, R = Response.Data<T>>(
     url: string,
     config?: AxiosRequestConfig
   ): Promise<R>;
-  post<T = any, R = ResponseData<T>>(
-    url: string,
-    data?: any,
-    config?: AxiosRequestConfig
-  ): Promise<R>;
-  put<T = any, R = ResponseData<T>>(
+  post<T = any, R = Response.Data<T>>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig
   ): Promise<R>;
-  patch<T = any, R = ResponseData<T>>(
+  put<T = any, R = Response.Data<T>>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+  ): Promise<R>;
+  patch<T = any, R = Response.Data<T>>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig

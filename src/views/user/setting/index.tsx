@@ -22,7 +22,7 @@ export default {
     const fetchUserInfo = async () => {
       try {
         const res = await getUserInfoApi()
-        const data: UserInfo = res.data
+        const data = res.data
         if (data) {
           userInfo.value = Object.assign(userInfo.value, data, {
             passwordMd5: ''

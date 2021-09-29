@@ -41,7 +41,7 @@ export default {
     const fetchCartList = async () => {
       try {
         const res = await getCartApi()
-        if (res.data?.lengt) {
+        if (res.data?.length) {
           store.commit('setCartCount', res.data?.length)
         }
       } catch (err) {

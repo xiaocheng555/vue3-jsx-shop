@@ -7,8 +7,7 @@
  * 版权所有，侵权必究！
  *
  */
-import { ResponsePage } from './../@types/request.d'
-import request from '@/utils/request'
+import http from '@/utils/http'
 
 export interface GoodsVosRes {
   goodsCount: number,
@@ -34,7 +33,7 @@ interface CreateOrderParams {
   cartItemIds?: number[] | string []
 }
 export function createOrderApi (params: CreateOrderParams) {
-  return request.post<string>('/saveOrder', params)
+  return http.post<string>('/saveOrder', params)
 }
 
 export interface GetOrderListParams {
@@ -43,19 +42,19 @@ export interface GetOrderListParams {
 
 }
 export function getOrderListApi (params: GetOrderListParams) {
-  return request.get<ResponsePage<OrderRes>>('/order', { params })
+  return http.get<Response.Page<OrderRes>>('/order', { params })
 }
 
 export function getOrderDetailApi (id: string) {
-  return request.get<OrderRes>(`/order/${id}`)
+  return http.get<OrderRes>(`/order/${id}`)
 }
 
 export function cancelOrderApi (id: string) {
-  return request.put(`/order/${id}/cancel`)
+  return http.put(`/order/${id}/cancel`)
 }
 
 export function confirmOrderApi (id: string) {
-  return request.put(`/order/${id}/finish`)
+  return http.put(`/order/${id}/finish`)
 }
 
 interface PayOrderParams {
@@ -63,5 +62,5 @@ interface PayOrderParams {
   payType?: number
 }
 export function payOrderApi (params: PayOrderParams) {
-  return request.get('/paySuccess', { params })
+  return http.get('/paySuccess', { params })
 }

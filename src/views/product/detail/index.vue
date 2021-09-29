@@ -2,11 +2,12 @@
 import { addCartApi, getCartApi } from '@/Apis/cart'
 import { getGoodsApi, GoodsDetailRes } from '@/Apis/good'
 import NavBar from '@/components/NavBar'
-import { ActionBar, ActionBarButton, ActionBarIcon, Badge, Button, Divider, Icon, Toast } from 'vant'
+import { ActionBar, ActionBarButton, ActionBarIcon, Badge, Divider, Toast } from 'vant'
 import { computed, onBeforeMount, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { handleImg } from "@/utils"
 import { useStore } from 'vuex'
+import { resolveResError } from '@/utils/http'
 
 export default {
   name: 'ProductDetail',
@@ -29,9 +30,6 @@ export default {
         const res = await getGoodsApi(Number(goodsId.value))
         goodsData.value = res.data || {}
       } catch (err) {
-        if (err?.resultCode && err?.resultCode !== 200) {
-          err.message && Toast.fail(err.message)
-        }
         console.error('获取商品失败', err)
       } finally {
         toast.clear()
@@ -60,9 +58,8 @@ export default {
         Toast.success('添加成功')
         store.commit('setCartCount', cartCount.value + 1)
       } catch (err) {
-        if (err?.resultCode && err?.resultCode !== 200) {
-          Toast.fail(err.message || '添加失败')
-        }
+        const res = resolveResError(err)
+        console.log(res?.message, res?.resultCode, 'message, resultCod')
         console.error('商品添加到购物车失败', err)
       } finally {
         adding.value = false

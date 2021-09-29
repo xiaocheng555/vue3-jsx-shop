@@ -47,7 +47,7 @@ export default {
         payPopupVisible.value = false
         fetchOrderDetail()
       } catch (err) {
-        Toast.fail('支付失败')
+        console.error('支付失败', err)
       }
     }
 

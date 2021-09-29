@@ -78,7 +78,7 @@ const handleLogin = async () => {
       router.replace('/user')
     }
   } catch (err) {
-    Toast.fail(err.resultCode && err?.message || '登陆失败')
+    console.error('登陆失败', err)
   } finally {
     logining.value = false
   }

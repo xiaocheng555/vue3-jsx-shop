@@ -8,7 +8,7 @@
  *
  */
 
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import appConfig from '@/config/index'
 import router from '@/router/index'
 import { Toast } from 'vant'
@@ -32,8 +32,8 @@ http.interceptors.request.use(
     config.headers.token = window.localStorage.getItem('token') // 设置token
     return config
   },
-  (error: any) => {
-    console.error('[request请求]: ', error)
+  (error: AxiosError) => {
+    console.error('[接口请求错误]: ', error)
     return Promise.reject(error)
   }
 )
@@ -41,45 +41,44 @@ http.interceptors.request.use(
 /*
  * 响应拦截
  */
-let toast: any
-let timer: any
 http.interceptors.response.use(
   (response: AxiosResponse) => {
-    const res = response.data
+    const res: Res.Data<any> = response.data
     if (res.resultCode === 200) {
       return res
-    } else if (res.resultCode === 416) {
-      // 处理登陆失效
-      Toast.fail('登录失效')
-      router.push('/login')
     } else {
-      return Promise.reject(res)
+      if (res.resultCode === 416) {
+        // 处理登陆失效
+        Toast.fail('登录失效')
+        router.push('/login')
+      } else if (res.message && res.resultCode) {
+        // 统一错误提示
+        Toast.fail(res.message)
+      }
+      return Promise.reject(createAxiosError(response)) // 抛出异常
     }
   },
-  (error: any) => {
+  (error: AxiosError) => {
     if (error.message === 'Network Error') {
-      clearTimeout(timer)
-      // 开启多个Toast，防止Toast.loading 和此时的Toast冲突
-      Toast.allowMultiple()
-      toast && toast.clear()
-      toast = Toast({
-        message: '请检查网络连接',
-        position: 'bottom',
-        onClose: () => {
-          toast.clear()
-          timer = setTimeout(() => {
-            // 100ms后关闭开启多个Toast
-            // 不能立马关，会导致Toast对应的dom没有销毁
-            Toast.allowMultiple(false)
-            clearTimeout(timer)
-          }, 100)
-        }
-      })
+      Toast('请检查网络连接')
     }
 
-    console.error('[request响应]: ', error)
+    console.error('[接口响应错误]: ', error)
     return Promise.reject(error)
   }
 )
+
+function createAxiosError (response: AxiosResponse): AxiosError {
+  const error: any = new Error()
+  error.isAxiosError = true
+  error.response = response
+  error.config = response.config
+  error.toJSON = () => ({})
+  return error
+}
+
+export const resolveResError = (error: any): Res.Data<any> | undefined => {
+  return error?.response?.data
+}
 
 export default http

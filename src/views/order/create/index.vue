@@ -119,7 +119,6 @@ export default {
         orderNo = res.data
         payPopupVisible.value = true
       } catch (err) {
-        err.message && err.resultCode && Toast.fail(err.message)
         console.error('创建订单失败', err)
       } finally {
         creating.value = false
@@ -127,16 +126,18 @@ export default {
     }
 
     const payOrder = async () => {
-      Toast.loading('支付中...')
+      const toast = Toast.loading('支付中...')
       try {
         await payOrderApi({
           orderNo: orderNo,
           payType: 1
         })
-        Toast.success('支付成功')
+        toast.success('支付成功')
         gotoOrderList()
       } catch (err) {
-        Toast.fail('支付失败')
+        toast.clear()
+        console.error('支付失败', err)
+      } finally {
         gotoOrderList()
       }
     }

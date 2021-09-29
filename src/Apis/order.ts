@@ -42,7 +42,7 @@ export interface GetOrderListParams {
 
 }
 export function getOrderListApi (params: GetOrderListParams) {
-  return http.get<Response.Page<OrderRes>>('/order', { params })
+  return http.get<Res.Page<OrderRes>>('/order', { params })
 }
 
 export function getOrderDetailApi (id: string) {

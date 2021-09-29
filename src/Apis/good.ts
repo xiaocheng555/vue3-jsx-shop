@@ -46,5 +46,5 @@ export interface SearchGoodsParams {
   goodsCategoryId?: number | string
 }
 export function searchGoodsApi (params: SearchGoodsParams) {
-  return http.get<Response.Page<GoodsRes>>('/search', { params })
+  return http.get<Res.Page<GoodsRes>>('/search', { params })
 }

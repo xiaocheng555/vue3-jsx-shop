@@ -18,11 +18,13 @@ export interface CartItemRes {
   sellingPrice?: number,
 }
 
-export function addCartApi (params: CartItemRes) {
+export interface AddCartParams extends CartItemRes {}
+export function addCartApi (params: AddCartParams) {
   return http.post('/shop-cart', params)
 }
 
-export function modifyCartApi (params: CartItemRes) {
+export interface ModifyCartParams extends CartItemRes {}
+export function modifyCartApi (params: ModifyCartParams) {
   return http.put('/shop-cart', params)
 }
 

@@ -103,12 +103,14 @@ export default {
           ...goodsParams.value,
           keyword: keyword.value
         })
-        const data = res.data || {}
-        const list = res.data?.list || []
-        goodsList.value.push(...list)
+        const data = res.data
+        if (data) {
+          const list = res.data?.list || []
+          goodsList.value.push(...list)
 
-        // set done
-        goodsFinish.value = data.currPage <= data.totalPage
+          // set done
+          goodsFinish.value = data.currPage <= data.totalPage
+        }
       } catch (err) {
         goodsError.value = true
         console.error('获取商品失败', err)

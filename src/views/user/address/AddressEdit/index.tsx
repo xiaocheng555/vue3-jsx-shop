@@ -1,6 +1,6 @@
 import NavBar from '@/components/NavBar'
 import { Toast, AddressEdit, AddressEditInfo } from 'vant'
-import { computed, defineComponent, ref, SetupContext } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { areaList } from '@vant/area-data'
 import { useRoute } from 'vue-router'
 import { editAddressApi, addAddressApi, deleteAddressApi, getAddressDetailApi, AddressItemResData } from '@/Apis/address'
@@ -8,7 +8,7 @@ import { editAddressApi, addAddressApi, deleteAddressApi, getAddressDetailApi, A
 export default defineComponent({
   name: 'AddressEdit',
   emits: ['back'],
-  setup (props: any, context : SetupContext) {
+  setup (props, context) {
     const route = useRoute()
     const searchResult = ref([])
     const addressInfo = ref<AddressEditInfo>({} as AddressEditInfo)
@@ -47,7 +47,9 @@ export default defineComponent({
       const { regionName, provinceName, cityName } = data
       const { province_list: provinceList, city_list: cityList, county_list: countryList } = areaList
 
-      for (const cCode in countryList) {
+      let cCode: keyof any
+      for (cCode in countryList) {
+        // @ts-ignore
         if (countryList[cCode] === regionName) {
           countyCodes.push(cCode)
         }
@@ -56,6 +58,7 @@ export default defineComponent({
 
       // 如果区有重名的话，则找出对应的省
       for (const pCode in provinceList) {
+        // @ts-ignore
         if (provinceList[pCode] === provinceName) {
           // 区和省前两位编码相同
           countyCodes = diffCodes(countyCodes, pCode, 2)
@@ -65,6 +68,7 @@ export default defineComponent({
 
       // 如果省和区有重名的话，则找出对应的市
       for (const cCode in cityList) {
+        // @ts-ignore
         if (cityList[cCode] === cityName) {
           // 区和市前四位编码相同
           countyCodes = diffCodes(countyCodes, cCode, 4)

@@ -6,10 +6,6 @@ import { ref, defineComponent } from 'vue'
 import { List, PullRefresh } from "vant"
 import { useRouter } from 'vue-router'
 
-interface OrderListProps {
-  status: string
-}
-
 const OrderList = defineComponent({
   name: 'OrderList',
   props: {
@@ -18,7 +14,7 @@ const OrderList = defineComponent({
       require: true
     }
   },
-  setup (props: OrderListProps) {
+  setup (props) {
     const router = useRouter()
     const orderList = ref<OrderRes[]>([])
     const pageNumber = ref(0)

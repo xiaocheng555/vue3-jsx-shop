@@ -28,10 +28,8 @@ export interface NavBarProps {
 
 export default defineComponent<NavBarProps>({
   name: 'NavBar',
-  setup (props: NavBarProps, context: SetupContext) {
+  setup (props, context) {
     const router = useRouter()
-    console.log(props, 'props')
-    console.log({ ...context.attrs }, 'context.attr')
 
     return () => (
       <div class="navbar-wrap">

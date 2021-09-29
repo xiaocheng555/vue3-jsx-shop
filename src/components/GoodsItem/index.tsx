@@ -10,20 +10,17 @@
 import './index.less'
 import { GoodsRes } from '@/Apis/good'
 import { useRouter } from 'vue-router'
-import { defineComponent } from 'vue'
-
-export interface GoodsItemProps {
-  data: GoodsRes
-}
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'GoodsItem',
   props: {
     data: {
-      default: () => ({} as GoodsRes)
+      type: Object as PropType<GoodsRes>,
+      default: () => {}
     }
   },
-  setup (props: GoodsItemProps) {
+  setup (props) {
     const router = useRouter()
 
     const onClick = (goods: GoodsRes) => {

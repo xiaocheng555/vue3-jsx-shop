@@ -1,15 +1,9 @@
 import { AddressItemResData, getAddressListApi } from '@/Apis/address'
 import NavBar from '@/components/NavBar'
 import { AddressList, AddressListAddress, Toast } from 'vant'
-import { defineComponent, ref, SetupContext } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AddressEdit from './AddressEdit'
-
-export interface AddressProps {
-  switchable?: boolean,
-  defaultSelectAddressId?: number,
-  back?: Function,
-}
 
 export default defineComponent({
   name: 'Address',
@@ -18,14 +12,15 @@ export default defineComponent({
       type: Function
     },
     switchable: {
-      type: Boolean
+      type: Boolean,
+      default: false
     },
     defaultSelectAddressId: {
       type: Number
     }
   },
   emits: ['select'],
-  setup (props: AddressProps, context: SetupContext) {
+  setup (props, context) {
     const router = useRouter()
     const route = useRoute()
     const addressList = ref<AddressListAddress []>([])

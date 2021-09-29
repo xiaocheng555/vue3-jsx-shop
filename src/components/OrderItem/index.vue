@@ -12,24 +12,27 @@
 import { OrderRes } from "@/Apis/order"
 import { handleImg } from "@/utils"
 import { Card } from "vant"
-import { defineComponent } from 'vue'
-
-export interface OrderItemProps {
-  data: OrderRes
-}
+import { defineComponent, PropType } from 'vue'
 
 export default defineComponent({
   name: 'OrderItem',
+  emits: ['click'],
   props: {
     data: {
+      type: Object as PropType<OrderRes>,
       default: () => {}
     }
   },
-  setup (props: OrderItemProps) {
+  setup (props, context) {
     const { data } = props
     const goodsList = data.newBeeMallOrderItemVOS || []
+
+    const onClick = (e: any) => {
+      context.emit('click', e)
+    }
+
     return () => (
-      <div class="order-item">
+      <div class="order-item" onClick={onClick}>
         <div class="order-item-top">
           <div>订单时间：{data.createTime}</div>
           <div>{data.orderStatusString}</div>

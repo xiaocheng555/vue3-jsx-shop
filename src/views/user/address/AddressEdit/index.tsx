@@ -15,11 +15,11 @@ export default defineComponent({
     const saving = ref(false)
     const deleting = ref(false)
     const id = computed(() => {
-      return route.query.id
+      return route.query.addressId
     })
 
     const fetchAddressInfo = async () => {
-      if (!id) return
+      if (!id.value) return
 
       const toast = Toast.loading('加载中...')
       try {
@@ -109,7 +109,7 @@ export default defineComponent({
           detailAddress: content.addressDetail,
           defaultFlag: content.isDefault ? 1 : 0
         })
-        goBack()
+        onBack()
       } catch (err) {
         console.error('更新地址失败：', err)
       } finally {
@@ -129,7 +129,7 @@ export default defineComponent({
           detailAddress: content.addressDetail,
           defaultFlag: content.isDefault ? 1 : 0
         })
-        goBack()
+        onBack()
       } catch (err) {
         console.error('新增地址失败：', err)
       } finally {
@@ -141,7 +141,7 @@ export default defineComponent({
       try {
         deleting.value = true
         await deleteAddressApi(id.value as string)
-        goBack()
+        onBack()
       } catch (err) {
         console.error('地址删除失败：', err)
       } finally {
@@ -149,8 +149,8 @@ export default defineComponent({
       }
     }
 
-    const goBack = () => {
-      context.emit('back')
+    const onBack = (change: boolean = true) => {
+      context.emit('back', change)
     }
 
     // 执行
@@ -158,7 +158,7 @@ export default defineComponent({
 
     return () => (
       <div>
-        <NavBar title={id.value ? '地址编辑' : '地址新增'} leftArrow onClick-left={goBack}></NavBar>
+        <NavBar title={id.value ? '地址编辑' : '地址新增'} leftArrow onClick-left={() => onBack(false)}></NavBar>
         <AddressEdit
           address-info={addressInfo.value}
           area-list={areaList}

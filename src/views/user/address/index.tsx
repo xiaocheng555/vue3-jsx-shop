@@ -1,21 +1,21 @@
 import { AddressItemResData, getAddressListApi } from '@/Apis/address'
 import NavBar from '@/components/NavBar'
 import { AddressList, AddressListAddress, Toast } from 'vant'
-import { defineComponent, ref } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AddressEdit from './AddressEdit'
 
 export default defineComponent({
   name: 'Address',
   props: {
-    back: {
+    navBack: {
       type: Function
     },
     switchable: {
       type: Boolean,
       default: false
     },
-    defaultSelectAddressId: {
+    defaultId: {
       type: Number
     }
   },
@@ -24,8 +24,10 @@ export default defineComponent({
     const router = useRouter()
     const route = useRoute()
     const addressList = ref<AddressListAddress []>([])
-    const chosenAddressId = ref(props.defaultSelectAddressId)
-    const showEditPage = ref(false)
+    const chosenAddressId = ref(props.defaultId)
+    const showEditPage = computed(() => {
+      return ['add', 'edit'].includes(String(route.query.addressType))
+    })
 
     const fetchAddressList = async () => {
       const toast = Toast.loading('加载中...')
@@ -55,42 +57,45 @@ export default defineComponent({
     }
 
     const onAdd = () => {
-      router.push({
+      router.replace({
         query: {
-          type: 'add'
+          ...route.query,
+          addressType: 'add'
         }
-      }).then(() => {
-        showEditPage.value = true
       })
     }
 
     const onEdit = (item: AddressListAddress) => {
-      router.push({
+      router.replace({
         query: {
           ...route.query,
-          type: 'edit',
-          id: item.id
+          addressType: 'edit',
+          addressId: item.id
         }
-      }).then(() => {
-        showEditPage.value = true
       })
     }
 
-    const onClickItem = (address: AddressListAddress) => {
+    const onSelectItem = (address: AddressListAddress) => {
       context.emit('select', address)
     }
 
-    const goBack = () => {
-      if (props.back) {
-        props.back?.()
+    const onBack = () => {
+      if (props.navBack) {
+        props.navBack?.()
       } else {
         router.back()
       }
     }
 
-    const onEditPageBack = () => {
-      showEditPage.value = false
-      fetchAddressList()
+    const showCurrPage = (change: boolean) => {
+      router.replace({
+        query: {
+          ...route.query,
+          addressType: undefined,
+          addressId: undefined
+        }
+      })
+      change && fetchAddressList()
     }
 
     // 执行
@@ -101,7 +106,7 @@ export default defineComponent({
         {
           !showEditPage.value
             ? (<div>
-            <NavBar title="地址管理" leftArrow onClick-left={goBack}></NavBar>
+            <NavBar title="地址管理" leftArrow onClick-left={onBack}></NavBar>
             <AddressList
               v-model={chosenAddressId.value}
               list={addressList.value}
@@ -109,10 +114,10 @@ export default defineComponent({
               switchable={props.switchable}
               onAdd={onAdd}
               onEdit={onEdit}
-              onSelect={onClickItem}>
+              onSelect={onSelectItem}>
             </AddressList>
           </div>)
-            : <AddressEdit onBack={onEditPageBack}></AddressEdit>
+            : <AddressEdit onBack={showCurrPage}></AddressEdit>
         }
       </>
     )

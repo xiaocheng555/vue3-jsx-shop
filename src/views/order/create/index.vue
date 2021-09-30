@@ -25,14 +25,17 @@ export default {
     const orderAddress = ref({} as OrderAddress)
     const totalPrice = ref(0)
     const creating = ref(false)
-    const addressPageVisible = ref(false)
     const payPopupVisible = ref(false)
     const cartItemIds = computed(() => {
       return String(route.query.cartItemIds || '')
     })
     const addressId = computed(() => {
-      return String(route.query.addressId || '')
+      return String(route.query.orderAddressId || '')
     })
+    const showAddressPage = computed(() => {
+      return String(route.query.page) === 'address'
+    })
+
 
     let orderNo: string | undefined
 
@@ -76,19 +79,22 @@ export default {
       }
     }
 
-    const showAddressPage = () => {
-      router.push({
+    const openAddressPage = () => {
+      router.replace({
         query: {
           ...route.query,
           page: 'address'
         }
-      }).then(() => {
-        addressPageVisible.value = true
       })
     }
 
     const onAddressBack = () => {
-      addressPageVisible.value = false
+      router.replace({
+        query: {
+          ...route.query,
+          page: undefined
+        }
+      })
     }
 
     const onAddressSelect = (address: AddressListAddress) => {
@@ -97,16 +103,13 @@ export default {
         userPhone: address.tel,
         address: address.address
       }
-      addressPageVisible.value = false
-      router.back()
-      setTimeout(() => {
-        router.replace({
-          query: {
-            ...route.query,
-            addressId: address.id
-          }
-        })
-      }, 100)
+      router.replace({
+        query: {
+          ...route.query,
+          page: undefined,
+          orderAddressId: address.id
+        }
+      })
     }
 
     const createOrder = async () => {
@@ -158,18 +161,18 @@ export default {
     return () => (
       <>
         {
-          addressPageVisible.value ?
+          showAddressPage.value ?
           (
             <Address
-              back={onAddressBack}
+              navBack={onAddressBack}
               switchable={true}
-              defaultSelectAddressId={Number(addressId.value || orderAddress.value.addressId)}
+              defaultId={Number(addressId.value || orderAddress.value.addressId)}
               onSelect={onAddressSelect}>
             </Address>
           ) : (
           <div>
             <NavBar title="生成订单" leftArrow></NavBar>
-            <div class="order-address" onClick={showAddressPage}>
+            <div class="order-address" onClick={openAddressPage}>
               <div class="order-address-main">
                 <p>{orderAddress.value.userPhone}</p>
                 <p>{ orderAddress.value.address }</p>
@@ -276,6 +279,7 @@ export default {
   right: 0;
   padding: 15px 15px 5px;
   border-top: 1px solid #eeeeee;
+  background: #ffffff;
 }
 .order-footer-content {
   display: flex;

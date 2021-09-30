@@ -8,32 +8,40 @@
  *
  */
 import { NavBar } from 'vant'
-import { defineComponent, SetupContext } from 'vue'
+import { defineComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import './index.less'
 
-export interface NavBarProps {
-  title?: string | undefined;
-  zIndex?: string | number | undefined;
-  leftText?: string | undefined;
-  rightText?: string | undefined;
-  fixed: boolean;
-  border: boolean;
-  placeholder: boolean;
-  leftArrow: boolean;
-  safeAreaInsetTop: boolean;
-  'onClick-left'?: ((...args: any[]) => any) | undefined;
-  'onClick-right'?: ((...args: any[]) => any) | undefined;
-}
-
-export default defineComponent<NavBarProps>({
+export default defineComponent({
   name: 'NavBar',
+  props: {
+    title: String,
+    border: Boolean,
+    leftText: String,
+    rightText: String,
+    leftArrow: Boolean,
+    placeholder: Boolean,
+    safeAreaInsetTop: Boolean,
+    fixed: {
+      type:  Boolean,
+      default: true
+    },
+    zIndex: {
+      type: Number,
+      default: 5
+    }
+  },
   setup (props, context) {
     const router = useRouter()
+    const navProps = {
+      'onClick-left': () => router.back(),
+      ...props,
+      ...context.attrs
+    }
 
     return () => (
       <div class="navbar-wrap">
-        <NavBar fixed onClick-left={() => router.back()} {...context.attrs}>
+        <NavBar {...navProps}>
           {context.slots}
         </NavBar>
       </div>

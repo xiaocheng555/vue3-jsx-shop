@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { addCartApi, getCartApi } from '@/Apis/cart'
-import { getGoodsApi, GoodsDetailRes } from '@/Apis/good'
+import { getGoodsApi, GoodsDetailRes, GoodsRes } from '@/Apis/good'
 import NavBar from '@/components/NavBar'
 import { ActionBar, ActionBarButton, ActionBarIcon, Badge, Divider, Toast } from 'vant'
 import { computed, onBeforeMount, ref } from 'vue'

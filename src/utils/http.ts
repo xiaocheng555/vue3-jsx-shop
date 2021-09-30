@@ -68,8 +68,8 @@ http.interceptors.response.use(
   }
 )
 
-function createAxiosError (response: AxiosResponse): AxiosError {
-  const error: any = new Error()
+function createAxiosError (response: AxiosResponse) {
+  const error = new Error() as AxiosError
   error.isAxiosError = true
   error.response = response
   error.config = response.config
@@ -77,7 +77,7 @@ function createAxiosError (response: AxiosResponse): AxiosError {
   return error
 }
 
-export const resolveResError = (error: any): Res.Data<any> | undefined => {
+export function resolveResError<T=any> (error: any): Res.Data<T> | undefined {
   return error?.response?.data
 }
 

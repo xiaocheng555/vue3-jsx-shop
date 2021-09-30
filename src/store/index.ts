@@ -9,15 +9,19 @@
  */
 import { createStore } from 'vuex'
 
+export interface State {
+  cartCount: number
+}
+
 // Create a new store instance.
-export default createStore({
+export default createStore<State>({
   state () {
     return {
       cartCount: 0
     }
   },
   mutations: {
-    setCartCount (state: any, value: number) {
+    setCartCount (state, value: number) {
       state.cartCount = value
     }
   },

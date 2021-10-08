@@ -13,7 +13,6 @@ import { handleImg } from "@/utils"
 import { Button, Card, Checkbox, Empty, Stepper, SubmitBar, SwipeCell, Toast } from "vant"
 import { computed, onBeforeMount, ref } from 'vue'
 import { useRouter } from "vue-router"
-import { useStore } from "vuex"
 
 interface CartItem extends CartItemRes {
   _originCount?: number,
@@ -23,7 +22,6 @@ interface CartItem extends CartItemRes {
 export default {
   name: 'Cart',
   setup () {
-    const store = useStore()
     const router = useRouter()
     const totalPrice = ref(0)
     const cartList = ref<CartItem[]>([])
@@ -50,7 +48,6 @@ export default {
             _originCount: item.goodsCount
           }
         })
-        store.commit('setCartCount', cartList.value.length)
         updateTotalPrice()
       } catch (err) {
         console.error('获取购物车数据失败', err)

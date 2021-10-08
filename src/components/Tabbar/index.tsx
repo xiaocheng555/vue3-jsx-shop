@@ -9,10 +9,11 @@
  */
 import router from '@/router'
 import { Badge, Tabbar, TabbarItem } from 'vant'
-import { computed, defineComponent, ref, watch } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import './index.less'
+import useCartCount from '@/use/useCartCount'
 
 export default defineComponent({
   name: 'tabbar',
@@ -20,10 +21,7 @@ export default defineComponent({
     const active = ref(0)
     const visible = ref(true)
     const route = useRoute()
-    const store = useStore()
-    const cartCount = computed(() => {
-      return store.state.cartCount
-    })
+    const { cartCount, refreshCartCount } = useCartCount()
 
     const tabs = [
       {
@@ -64,6 +62,15 @@ export default defineComponent({
     }, {
       immediate: true
     })
+
+    watch(() => visible.value, (val) => {
+      if (val) {
+        refreshCartCount()
+      }
+    }, {
+      immediate: true
+    })
+
 
     return () => {
       return (

@@ -135,7 +135,7 @@ export default {
           orderNo: orderNo,
           payType: 1
         })
-        toast.success('支付成功')
+        Toast.success('支付成功')
         gotoOrderList()
       } catch (err) {
         toast.clear()
@@ -146,7 +146,7 @@ export default {
     }
 
     const gotoOrderList = () => {
-      router.replace('/order/index')
+      router.replace('/order/list')
     }
 
     const initData = () => {

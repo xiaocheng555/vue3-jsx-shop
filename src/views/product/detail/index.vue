@@ -6,22 +6,19 @@ import { ActionBar, ActionBarButton, ActionBarIcon, Badge, Divider, Toast } from
 import { computed, onBeforeMount, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { handleImg } from "@/utils"
-import { useStore } from 'vuex'
 import { resolveResError } from '@/utils/http'
+import useCartCount from '@/use/useCartCount'
 
 export default {
   name: 'ProductDetail',
   setup () {
-    const store = useStore()
     const router = useRouter()
     const route = useRoute()
+    const { cartCount, refreshCartCount, increaseCartCount } = useCartCount()
     const goodsData = ref<GoodsDetailRes>({} as GoodsDetailRes)
     const adding = ref(false)
     const goodsId = computed(() => {
       return route.params.id
-    })
-    const cartCount = computed(() => {
-      return store.state.cartCount
     })
 
     const fetchGoodsData = async () => {
@@ -36,17 +33,6 @@ export default {
       }
     }
 
-    const fetchCartList = async () => {
-      try {
-        const res = await getCartApi()
-        if (res.data?.length) {
-          store.commit('setCartCount', res.data?.length)
-        }
-      } catch (err) {
-        console.error('获取购物车商品失败', err)
-      }
-    }
-
     const addCart = async () => {
       try {
         adding.value = true
@@ -56,7 +42,7 @@ export default {
           goodsId: goodsId
         })
         Toast.success('添加成功')
-        store.commit('setCartCount', cartCount.value + 1)
+        increaseCartCount()
       } catch (err) {
         const res = resolveResError(err)
         console.log(res?.message, res?.resultCode, 'message, resultCod')
@@ -71,8 +57,8 @@ export default {
     }
 
     onBeforeMount(() => {
+      refreshCartCount()
       fetchGoodsData()
-      fetchCartList()
     })
 
     return () => {

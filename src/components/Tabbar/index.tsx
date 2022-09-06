@@ -11,7 +11,6 @@ import router from '@/router'
 import { Badge, Tabbar, TabbarItem } from 'vant'
 import { defineComponent, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
 import './index.less'
 import useCartCount from '@/use/useCartCount'
 

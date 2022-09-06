@@ -8,7 +8,7 @@
  *
  */
 import { NavBar } from 'vant'
-import { defineComponent } from 'vue'
+import { defineComponent, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
 import './index.less'
 
@@ -42,7 +42,7 @@ export default defineComponent({
     return () => (
       <div class="navbar-wrap">
         <NavBar {...navProps}>
-          {context.slots}
+          {toRaw(context.slots)}
         </NavBar>
       </div>
     )
